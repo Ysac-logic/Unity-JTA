@@ -1,0 +1,261 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-display-face), Impact, "Arial Narrow", sans-serif;
+
+  /* Paleta: preto e vermelho como base, branco para contraste */
+  --color-carbon: #000000;
+  --color-paper: #ffffff;
+  --color-red: #e10600;
+  --color-ink: #0a0a0a;
+  --color-coal: #141414;
+
+  /* Papéis semânticos (escuro) */
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-2: #1c1c1c;
+  --color-surface-3: #262626;
+  --color-line: rgb(255 255 255 / 0.16);
+  --color-line-strong: rgb(255 255 255 / 0.5);
+
+  --color-fg: #ffffff;
+  --color-muted: #b8b8b8;
+  --color-subtle: #8f8f8f;
+
+  --color-brand: #e10600;
+  --color-brand-hover: #f5150f;
+  --color-brand-press: #b80500;
+  --color-brand-text: #ff4d40;
+  --color-brand-soft: rgb(225 6 0 / 0.16);
+
+  --color-ok: #4ade80;
+  --color-ok-soft: rgb(74 222 128 / 0.14);
+  --color-warn: #f5a524;
+  --color-warn-soft: rgb(245 165 36 / 0.14);
+  --color-info: #b8b8b8;
+  --color-info-soft: rgb(255 255 255 / 0.08);
+
+  --radius-card: 1.25rem;
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Escala fluida: o texto encolhe junto com a tela */
+  --text-display: clamp(3.25rem, 1.4rem + 8.2vw, 9rem);
+  --text-title: clamp(2.5rem, 1.35rem + 4.6vw, 5.25rem);
+  --text-lead: clamp(1rem, 0.92rem + 0.45vw, 1.375rem);
+
+  /* Compat. com a landing alternativa /site */
+  --font-anton: var(--font-display);
+  --font-sign: var(--font-sign-face), cursive;
+  --color-lu-black: #0b0b0b;
+  --color-lu-coal: #141414;
+  --color-lu-red: #850d1c;
+  --color-lu-red-deep: #6a0a16;
+  --color-lu-red-hi: #e0384c;
+  --color-lu-ice: #f5f4ef;
+  --color-lu-bone: #e9e7df;
+  --color-lu-gray: #929292;
+  --color-lu-ink: #4f4d48;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "tnum" 0;
+  -webkit-font-smoothing: antialiased;
+  touch-action: manipulation;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus, #fff);
+  outline-offset: 2px;
+}
+.band-paper { --color-focus: var(--color-brand); }
+
+@layer base {
+  .font-display,
+  .font-anton {
+    font-weight: 400;
+    font-synthesis: none;
+    letter-spacing: 0.005em;
+  }
+}
+
+.brand-mark {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0.01em;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.032em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Titulares esculturais: entrelinha esmagada, como no sistema Slush */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: var(--text-display);
+  line-height: 0.84;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: var(--text-title);
+  line-height: 0.92;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.lead {
+  font-size: var(--text-lead);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+.hero-grain {
+  background: var(--color-surface-2);
+}
+
+/* Faixas de seção: preto, grafite, branco (contraste) e vermelho */
+.band-ink { background: var(--color-ink); color: #fff; }
+.band-coal { background: var(--color-coal); color: #fff; }
+.band-paper { background: var(--color-paper); color: #000; }
+.band-red { background: var(--color-red); color: #fff; }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 32s linear infinite; }
+
+.luj-ray {
+  position: absolute;
+  top: -15%;
+  height: 130%;
+  transform-origin: top center;
+  transform: translateX(-50%) rotate(var(--r));
+  opacity: var(--o);
+  filter: blur(22px);
+  mix-blend-mode: screen;
+  animation: luj-ray-sway ease-in-out infinite alternate;
+}
+
+@keyframes luj-ray-sway {
+  from {
+    transform: translateX(-50%) rotate(var(--r));
+    opacity: calc(var(--o) * 0.45);
+  }
+  to {
+    transform: translateX(-50%) rotate(calc(var(--r) + 5deg));
+    opacity: var(--o);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .luj-ray,
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+/* Landing LOW UNITY JTA */
+html:has(.lu-root) {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
+}
+
+.lu-root {
+  background: var(--color-lu-black);
+  color: var(--color-lu-ice);
+}
+
+.lu-wave-text {
+  background-image: linear-gradient(100deg, #850d1c 0%, #e0384c 25%, #ff6b7a 40%, #b3142a 60%, #850d1c 80%, #e0384c 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: lu-wave 4s linear infinite;
+}
+
+@keyframes lu-wave {
+  to { background-position: -200% 0; }
+}
+
+.lu-marquee-mask {
+  mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+}
+
+.lu-outline {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px currentColor;
+}
+
+.lu-hatch {
+  background-color: #1a1a1a;
+  background-image: repeating-linear-gradient(135deg, rgb(146 146 146 / 0.09) 0 1px, transparent 1px 14px);
+}
+
+.lu-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes lu-ping {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+.lu-ping { animation: lu-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.lu-root) { scroll-behavior: auto; }
+  .lu-wave-text, .lu-ping { animation: none; }
+}

@@ -1,0 +1,326 @@
+// LOW UNITY JTA — uma única equipe, todos os alunos compartilhados.
+// Não existe vínculo aluno → personal. Autoria (createdBy/updatedBy/actor) serve só para histórico.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// role: ADMIN | TRAINER | STUDENT
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String
+  phone        String?
+  avatarPath   String?
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  student         Student?
+  activities      ActivityLog[]
+  notifications   Notification[]
+  messages        Message[]
+  notes           Note[]
+  payments        Payment[]
+  workoutsUpdated Workout[]      @relation("WorkoutUpdater")
+}
+
+// goal: HIPERTROFIA | EMAGRECIMENTO | FORCA | CONDICIONAMENTO | PERFORMANCE | SAUDE | OUTRO
+// status: ACTIVE | INACTIVE
+model Student {
+  id        String    @id @default(cuid())
+  userId    String    @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  birthDate DateTime?
+  goal      String    @default("HIPERTROFIA")
+  goalOther String?
+  startDate DateTime  @default(now())
+  info      String?
+  status    String    @default("ACTIVE")
+  createdAt DateTime  @default(now())
+
+  workouts      Workout[]
+  sessions      WorkoutSession[]
+  measurements  Measurement[]
+  photos        ProgressPhoto[]
+  messages      Message[]
+  notes         Note[]
+  subscriptions Subscription[]
+  invoices      Invoice[]
+  activities    ActivityLog[]
+}
+
+model Exercise {
+  id           String   @id @default(cuid())
+  name         String
+  muscleGroup  String
+  description  String?
+  instructions String?
+  notes        String?
+  imageUrl     String?
+  videoUrl     String?
+  gifUrl       String?
+  equipment    String?
+  targetMuscle String?
+  // Origem externa (ExerciseDB). Nulo para exercícios criados pela equipe.
+  externalId   String?  @unique
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  items   WorkoutExercise[]
+  setLogs SetLog[]
+}
+
+// dayOfWeek: 0 (domingo) … 6 (sábado), opcional
+model Workout {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  name        String
+  label       String?
+  dayOfWeek   Int?
+  notes       String?
+  active      Boolean  @default(true)
+  position    Int      @default(0)
+  createdById String?
+  updatedById String?
+  updatedBy   User?    @relation("WorkoutUpdater", fields: [updatedById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  items    WorkoutExercise[]
+  sessions WorkoutSession[]
+
+  @@index([studentId])
+}
+
+model WorkoutExercise {
+  id          String   @id @default(cuid())
+  workoutId   String
+  workout     Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exerciseId  String
+  exercise    Exercise @relation(fields: [exerciseId], references: [id])
+  position    Int      @default(0)
+  sets        Int      @default(3)
+  reps        String   @default("10")
+  loadKg      Float?
+  restSeconds Int      @default(60)
+  notes       String?
+
+  @@index([workoutId])
+}
+
+model WorkoutSession {
+  id                 String    @id @default(cuid())
+  studentId          String
+  student            Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  workoutId          String?
+  workout            Workout?  @relation(fields: [workoutId], references: [id], onDelete: SetNull)
+  workoutName        String
+  startedAt          DateTime
+  finishedAt         DateTime
+  durationSec        Int
+  totalExercises     Int
+  completedExercises Int
+  completionPct      Int
+  sets               SetLog[]
+
+  @@index([studentId, finishedAt])
+}
+
+model SetLog {
+  id           String         @id @default(cuid())
+  sessionId    String
+  session      WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  exerciseId   String
+  exercise     Exercise       @relation(fields: [exerciseId], references: [id])
+  exerciseName String
+  setNumber    Int
+  reps         Int?
+  loadKg       Float?
+  completed    Boolean        @default(true)
+
+  @@index([exerciseId])
+}
+
+// custom: JSON [{ "label": "Antebraço", "value": 30, "unit": "cm" }]
+model Measurement {
+  id           String   @id @default(cuid())
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  date         DateTime
+  weightKg     Float?
+  waistCm      Float?
+  abdomenCm    Float?
+  hipCm        Float?
+  armCm        Float?
+  thighCm      Float?
+  calfCm       Float?
+  custom       String?
+  notes        String?
+  recordedById String?
+  createdAt    DateTime @default(now())
+
+  @@index([studentId, date])
+}
+
+// angle: FRONT | BACK | SIDE. filePath é relativo a /storage/photos (fora de /public).
+model ProgressPhoto {
+  id           String   @id @default(cuid())
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  takenAt      DateTime
+  angle        String
+  filePath     String
+  mimeType     String
+  uploadedById String?
+  createdAt    DateTime @default(now())
+
+  @@index([studentId, takenAt])
+}
+
+// Conversa do aluno com a equipe inteira (thread por aluno).
+model Message {
+  id              String    @id @default(cuid())
+  studentId       String
+  student         Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  senderId        String
+  sender          User      @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  body            String
+  readByStaffAt   DateTime?
+  readByStudentAt DateTime?
+  createdAt       DateTime  @default(now())
+
+  @@index([studentId, createdAt])
+}
+
+// Observações internas da equipe sobre o aluno.
+model Note {
+  id        String   @id @default(cuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  body      String
+  createdAt DateTime @default(now())
+}
+
+model Plan {
+  id             String         @id @default(cuid())
+  name           String
+  priceCents     Int
+  intervalMonths Int            @default(1)
+  description    String?
+  active         Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  subscriptions  Subscription[]
+}
+
+// status: ACTIVE | CANCELED. gateway* preparados para integração futura.
+model Subscription {
+  id                    String    @id @default(cuid())
+  studentId             String
+  student               Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  planId                String?
+  plan                  Plan?     @relation(fields: [planId], references: [id], onDelete: SetNull)
+  amountCents           Int
+  startDate             DateTime
+  firstDueDate          DateTime
+  nextDueDate           DateTime
+  paymentMethod         String    @default("PIX")
+  status                String    @default("ACTIVE")
+  notes                 String?
+  gatewayProvider       String?
+  gatewayCustomerId     String?
+  gatewaySubscriptionId String?
+  canceledAt            DateTime?
+  createdAt             DateTime  @default(now())
+  invoices              Invoice[]
+
+  @@index([studentId])
+}
+
+// Mensalidade. status persistido: OPEN | PAID | CANCELED.
+// Pendente / A vencer / Em atraso são derivados de dueDate (src/lib/finance.ts).
+model Invoice {
+  id              String       @id @default(cuid())
+  subscriptionId  String
+  subscription    Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  studentId       String
+  student         Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  reference       String
+  amountCents     Int
+  dueDate         DateTime
+  status          String       @default("OPEN")
+  paidAt          DateTime?
+  method          String?
+  notes           String?
+  gatewayChargeId String?
+  createdAt       DateTime     @default(now())
+  payments        Payment[]
+
+  @@unique([subscriptionId, dueDate])
+  @@index([status, dueDate])
+}
+
+// method: PIX | CARTAO | TRANSFERENCIA | DINHEIRO | OUTRO
+model Payment {
+  id           String   @id @default(cuid())
+  invoiceId    String
+  invoice      Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  amountCents  Int
+  paidAt       DateTime
+  method       String
+  notes        String?
+  recordedById String?
+  recordedBy   User?    @relation(fields: [recordedById], references: [id], onDelete: SetNull)
+  gatewayRef   String?
+  createdAt    DateTime @default(now())
+}
+
+// audience: USER (userId obrigatório) | STAFF (caixa compartilhada da equipe)
+model Notification {
+  id        String    @id @default(cuid())
+  audience  String    @default("USER")
+  userId    String?
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  body      String?
+  link      String?
+  dedupeKey String?   @unique
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([audience, userId, readAt])
+}
+
+// Registro de quem fez o quê. Não restringe acesso.
+model ActivityLog {
+  id          String   @id @default(cuid())
+  actorId     String
+  actor       User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  action      String
+  entityType  String
+  entityId    String?
+  studentId   String?
+  student     Student? @relation(fields: [studentId], references: [id], onDelete: SetNull)
+  description String
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([studentId])
+}
+
+model Setting {
+  key   String @id
+  value String
+}

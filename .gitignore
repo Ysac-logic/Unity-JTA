@@ -1,0 +1,8 @@
+node_modules
+.next
+.env
+prisma/dev.db*
+storage/photos/*
+!storage/photos/.gitkeep
+*.tsbuildinfo
+.impeccable/hook.cache.json
