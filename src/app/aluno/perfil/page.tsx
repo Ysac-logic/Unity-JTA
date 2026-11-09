@@ -18,11 +18,13 @@ export default async function StudentProfile() {
 
   return (
     <div className="space-y-8">
-      <section className="flex items-center gap-4">
-        <Avatar name={user.name} size={72} />
+      <section className="flex flex-col items-center gap-3 text-center">
+        <span className="rounded-full border-2 border-brand p-1">
+          <Avatar name={user.name} size={88} />
+        </span>
         <div className="min-w-0">
-          <h1 className="font-display text-3xl font-extrabold uppercase leading-none">{user.name}</h1>
-          <p className="mt-1 text-sm text-muted">Aluno LOW UNITY JTA desde {fDate(student.startDate)}</p>
+          <h1 className="font-display text-3xl leading-tight">{user.name}</h1>
+          <p className="mt-1 text-sm text-muted">Membro desde {fDate(student.startDate)}</p>
         </div>
       </section>
 
@@ -33,7 +35,7 @@ export default async function StudentProfile() {
           ["Sequência", `${stats.streak} sem`],
         ].map(([k, v]) => (
           <div key={k} className="px-2 py-4">
-            <p className="font-display text-lg font-bold leading-tight tnum">{v}</p>
+            <p className="font-display text-lg font-semibold leading-tight tnum">{v}</p>
             <p className="mt-1 text-xs text-subtle">{k}</p>
           </div>
         ))}
@@ -51,7 +53,7 @@ export default async function StudentProfile() {
             return (
               <li key={href as string}>
                 <Link href={href as string} className="flex h-14 items-center gap-3 px-4 hover:bg-surface-2">
-                  <I aria-hidden className="size-5 text-muted" />
+                  <I aria-hidden className="size-5 text-brand-text" />
                   <span className="flex-1 font-medium">{label as string}</span>
                   <ChevronRight aria-hidden className="size-5 text-subtle" />
                 </Link>

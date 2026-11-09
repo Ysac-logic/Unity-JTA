@@ -21,7 +21,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 md:flex-row md:items-end md:justify-between lg:px-10">
         <div>
           <Logo className="text-3xl sm:text-4xl" />
-          <p className="mt-3 font-display text-sm uppercase tracking-[0.24em] text-lu-gray">Consultoria de treino online</p>
+          <p className="mt-3 font-sans text-sm uppercase tracking-[0.24em] text-lu-gray">Consultoria de treino online</p>
         </div>
         <div className="flex gap-3">
           <Social href={instagram ? `https://instagram.com/${instagram.replace(/^@/, "")}` : undefined} label="Instagram"><Instagram className="size-5" aria-hidden /></Social>
@@ -30,7 +30,7 @@ export function Footer() {
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-10">
-        <p className="border-t border-lu-gray/20 pt-6 font-display text-xs uppercase tracking-[0.2em] text-lu-gray">{site.footer.copyright}</p>
+        <p className="border-t border-lu-gray/20 pt-6 font-sans text-xs uppercase tracking-[0.2em] text-lu-gray">{site.footer.copyright}</p>
       </div>
     </footer>
   );

@@ -77,7 +77,7 @@ export function PhotoCompare({ photos }: { photos: P[] }) {
                 <span className="absolute left-2 top-2 rounded-md bg-black/70 px-2 py-1 text-xs font-bold text-white tnum">{a.label}</span>
                 <span className="absolute right-2 top-2 rounded-md bg-brand px-2 py-1 text-xs font-bold tnum">{b.label}</span>
               </div>
-              <input type="range" min={0} max={100} value={pos} onChange={(e) => setPos(Number(e.target.value))} aria-label="Posição da comparação" className="mt-3 w-full accent-[#e10600] sm:mx-auto sm:block sm:max-w-md" />
+              <input type="range" min={0} max={100} value={pos} onChange={(e) => setPos(Number(e.target.value))} aria-label="Posição da comparação" className="mt-3 w-full accent-[#a30f20] sm:mx-auto sm:block sm:max-w-md" />
             </div>
           )}
         </>

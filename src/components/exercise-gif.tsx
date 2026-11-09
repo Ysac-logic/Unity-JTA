@@ -67,7 +67,7 @@ export function ExerciseGif({ name, gifUrl, muscleGroup, targetMuscle, equipment
           </div>
           <div className="overflow-y-auto p-5">
             <p className="eyebrow">{[muscleGroup, targetMuscle, equipment].filter(Boolean).join(" · ")}</p>
-            <h2 className="mt-1 font-display text-2xl font-extrabold uppercase leading-tight">{name}</h2>
+            <h2 className="mt-1 font-display text-2xl font-semibold leading-tight">{name}</h2>
             {instructions && (
               <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm text-muted">
                 {instructions.split("\n").map((s, i) => <li key={i}>{s}</li>)}

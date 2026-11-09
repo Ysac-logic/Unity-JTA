@@ -10,17 +10,17 @@ type Variant = "primary" | "secondary" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full border border-transparent font-bold tracking-[0.03em] transition-[background-color,border-color,color,transform] duration-150 ease-[var(--ease-out-quart)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45 cursor-pointer select-none";
+  "inline-flex items-center justify-center gap-2 rounded-full sys:rounded-xl border border-transparent font-bold sys:font-semibold tracking-[0.03em] transition-[background-color,border-color,color,transform] duration-150 ease-[var(--ease-out-quart)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45 cursor-pointer select-none";
 const variants: Record<Variant, string> = {
-  primary: "bg-brand text-white hover:bg-brand-hover active:bg-brand-press",
-  secondary: "border-white/70 bg-transparent text-fg hover:bg-fg hover:text-bg active:bg-fg active:text-bg",
+  primary: "bg-brand text-white hover:bg-brand-hover active:bg-brand-press sys:bg-gradient-to-b sys:from-brand-hover sys:to-brand sys:text-fg sys:shadow-[0_6px_18px_-6px_rgb(163_15_32/0.7)]",
+  secondary: "border-white/70 bg-transparent text-fg hover:bg-fg hover:text-bg active:bg-fg active:text-bg sys:border-line-strong sys:bg-surface sys:hover:border-brand-text sys:hover:bg-surface-2 sys:hover:text-fg",
   ghost: "text-muted hover:text-fg hover:bg-surface-2",
   danger: "border-brand/50 bg-transparent text-brand-text hover:bg-brand-soft",
 };
 const sizes: Record<Size, string> = {
   sm: "h-9 px-3 text-sm",
   md: "h-11 px-5 text-[15px]",
-  lg: "h-14 px-7 text-base uppercase tracking-[0.04em]",
+  lg: "h-14 px-7 text-base uppercase tracking-[0.04em] sys:h-12 sys:text-sm sys:tracking-[0.12em]",
 };
 
 export const btn = (v: Variant = "primary", s: Size = "md", extra?: string) => cx(base, variants[v], sizes[s], extra);
@@ -40,7 +40,7 @@ export function Card({ className, ...p }: ComponentProps<"div">) {
 export function SectionTitle({ children, action, id }: { children: ReactNode; action?: ReactNode; id?: string }) {
   return (
     <div className="mb-3 flex items-end justify-between gap-3">
-      <h2 id={id} className="font-display text-2xl uppercase leading-none text-fg">
+      <h2 id={id} className="font-display text-2xl uppercase sys:normal-case leading-none sys:leading-tight text-fg sys:text-xl">
         {children}
       </h2>
       {action}
@@ -53,7 +53,7 @@ export function PageHeader({ eyebrow, title, description, actions }: { eyebrow?:
     <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div className="min-w-0">
         {eyebrow && <p className="eyebrow mb-1">{eyebrow}</p>}
-        <h1 className="font-display text-[clamp(2.25rem,1.5rem+3.4vw,3.5rem)] uppercase leading-[0.9] text-balance">{title}</h1>
+        <h1 className="font-display text-[clamp(2.25rem,1.5rem+3.4vw,3.5rem)] uppercase leading-[0.9] text-balance sys:normal-case sys:leading-[1.05] sys:text-[clamp(1.875rem,1.4rem+2.2vw,2.75rem)]">{title}</h1>
         {description && <p className="mt-2 max-w-2xl text-[15px] text-muted">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
@@ -103,7 +103,7 @@ export function Avatar({ name, size = 40 }: { name: string; size?: number }) {
     <span
       aria-hidden
       style={{ width: size, height: size, fontSize: size * 0.36 }}
-      className="inline-grid shrink-0 place-items-center rounded-full border border-line-strong bg-surface-3 font-display text-fg"
+      className="inline-grid shrink-0 place-items-center rounded-full border border-line-strong sys:border-brand bg-surface-3 font-display text-fg"
     >
       {initials(name)}
     </span>
@@ -113,8 +113,8 @@ export function Avatar({ name, size = 40 }: { name: string; size?: number }) {
 export function EmptyState({ icon: Icon, title, description, action }: { icon: LucideIcon; title: string; description?: string; action?: ReactNode }) {
   return (
     <Card className="flex flex-col items-center px-6 py-10 text-center">
-      <span className="mb-3 grid size-12 place-items-center rounded-full border border-line-strong bg-brand">
-        <Icon aria-hidden className="size-5 text-white" />
+      <span className="mb-3 grid size-12 place-items-center rounded-full border border-line-strong bg-brand sys:border-brand-text/40 sys:bg-brand-soft">
+        <Icon aria-hidden className="size-5 text-white sys:text-brand-text" />
       </span>
       <p className="font-semibold">{title}</p>
       {description && <p className="mt-1 max-w-sm text-sm text-muted">{description}</p>}
@@ -124,7 +124,7 @@ export function EmptyState({ icon: Icon, title, description, action }: { icon: L
 }
 
 const field =
-  "w-full rounded-2xl border border-line-strong bg-surface-2 px-4 text-base text-fg placeholder:text-subtle transition-colors hover:border-white focus:border-brand-text focus:outline-none";
+  "w-full rounded-2xl sys:rounded-xl border border-line-strong bg-surface-2 px-4 text-base text-fg placeholder:text-subtle transition-colors hover:border-white sys:hover:border-brand-text/60 focus:border-brand-text focus:outline-none";
 
 export function Field({ label, hint, required, children, className }: { label: string; hint?: string; required?: boolean; children: ReactNode; className?: string }) {
   return (
@@ -144,7 +144,7 @@ export function Input({ className, ...p }: ComponentProps<"input">) {
 }
 
 export function Select({ className, ...p }: ComponentProps<"select">) {
-  return <select className={cx(field, "h-12 appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22none%22 stroke=%22%23ffffff%22 stroke-width=%222%22><path d=%22M2 4l4 4 4-4%22/></svg>')] bg-[length:12px] bg-[right_14px_center] bg-no-repeat pr-10", className)} {...p} />;
+  return <select className={cx(field, "h-12 appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22none%22 stroke=%22%23f5f2ed%22 stroke-width=%222%22><path d=%22M2 4l4 4 4-4%22/></svg>')] bg-[length:12px] bg-[right_14px_center] bg-no-repeat pr-10", className)} {...p} />;
 }
 
 export function Textarea({ className, ...p }: ComponentProps<"textarea">) {
@@ -161,8 +161,8 @@ export function Tabs({ items, active }: { items: { key: string; label: string; h
               href={t.href}
               aria-current={t.key === active ? "page" : undefined}
               className={cx(
-                "inline-flex h-11 items-center rounded-full border border-line-strong px-4 text-sm font-bold tracking-[0.03em] transition-colors",
-                t.key === active ? "border-brand bg-brand text-white" : "bg-transparent text-fg hover:bg-surface-2",
+                "inline-flex h-11 items-center rounded-full sys:rounded-xl border border-line-strong sys:border-line px-4 sys:px-5 text-sm font-bold sys:font-semibold tracking-[0.03em] transition-colors",
+                t.key === active ? "border-brand bg-brand text-white" : "bg-transparent text-fg hover:bg-surface-2 sys:bg-surface sys:text-muted sys:hover:text-fg",
               )}
             >
               {t.label}
@@ -176,9 +176,9 @@ export function Tabs({ items, active }: { items: { key: string; label: string; h
 
 export function Brand({ compact }: { compact?: boolean }) {
   return (
-    <span className="brand-mark inline-flex items-center gap-2 uppercase leading-none">
-      <span aria-hidden className="grid size-8 place-items-center rounded-full bg-brand text-[15px] text-white">L</span>
-      <span className={compact ? "text-xl" : "text-2xl"}>
+    <span className="brand-mark inline-flex items-center gap-2 uppercase leading-none sys:gap-2">
+      <span aria-hidden className="grid size-8 place-items-center rounded-full bg-brand text-[15px] text-white sys:hidden">L</span>
+      <span className={compact ? "text-xl" : "text-2xl sys:text-3xl"}>
         Low Unity <span className="text-brand-text">JTA</span>
       </span>
     </span>
@@ -187,7 +187,7 @@ export function Brand({ compact }: { compact?: boolean }) {
 
 export function Progress({ value, label }: { value: number; label: string }) {
   return (
-    <div role="progressbar" aria-label={label} aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} className="h-2.5 w-full overflow-hidden rounded-full border border-line-strong bg-surface-3">
+    <div role="progressbar" aria-label={label} aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} className="h-2.5 sys:h-2 w-full overflow-hidden rounded-full border border-line-strong sys:border-0 bg-surface-3">
       <div className="h-full rounded-full bg-brand transition-[width] duration-500" style={{ width: `${Math.max(0, Math.min(100, value))}%` }} />
     </div>
   );

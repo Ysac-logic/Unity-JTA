@@ -13,7 +13,7 @@ export function Problem() {
       <div className="mx-auto grid max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-10">
         <div className="lg:col-span-7">
           <Eyebrow tone="light">{p.eyebrow}</Eyebrow>
-          <h2 className="mt-6 font-anton text-[clamp(2.8rem,8vw,6.5rem)] uppercase leading-[0.92]">
+          <h2 className="mt-6 font-anton text-[clamp(2.8rem,8vw,6.5rem)] uppercase leading-[1.1]">
             <SlideUpText>{a}</SlideUpText>{" "}
             <HighlightedText className="text-lu-ice" delay={0.5}>{b}</HighlightedText>{" "}
             <SlideUpText delay={0.25}>{c}</SlideUpText>
@@ -26,7 +26,7 @@ export function Problem() {
           <Reveal delay={0.2}>
             <ul className="mt-10 flex flex-wrap gap-3">
               {p.pains.map((pain) => (
-                <li key={pain} className="flex items-center gap-2 border border-lu-black/15 px-4 py-2 font-display text-sm font-semibold uppercase tracking-[0.14em]">
+                <li key={pain} className="flex items-center gap-2 border border-lu-black/15 px-4 py-2 font-sans text-sm font-semibold uppercase tracking-[0.14em]">
                   <X aria-hidden className="size-4 text-lu-red" strokeWidth={2.5} />
                   {pain}
                 </li>
@@ -38,8 +38,8 @@ export function Problem() {
         <Reveal className="lg:col-span-5 lg:pt-16" delay={0.15}>
           <div className="relative bg-lu-black p-7 text-lu-ice sm:p-10">
             <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-lu-red" />
-            <p className="font-display text-sm font-bold uppercase tracking-[0.28em] text-lu-red-hi">{p.solution.eyebrow}</p>
-            <h3 className="mt-4 font-anton text-4xl uppercase leading-[0.95] sm:text-5xl">{p.solution.title}</h3>
+            <p className="font-sans text-sm font-bold uppercase tracking-[0.28em] text-lu-red-hi">{p.solution.eyebrow}</p>
+            <h3 className="mt-4 font-anton text-4xl uppercase leading-[1.1] sm:text-5xl">{p.solution.title}</h3>
             <ul className="mt-8 divide-y divide-lu-gray/20">
               {p.solution.items.map((item) => (
                 <li key={item.title} className="flex gap-4 py-5 first:pt-0 last:pb-0">

@@ -9,7 +9,7 @@ export function Logo({ className = "" }: { className?: string }) {
   const { pre, mid, post } = site.brand;
   return (
     <span className={`brand-mark uppercase ${className}`}>
-      {pre} <span className="text-lu-red-hi">{mid}</span> {post}
+      {pre} {mid} <span className="text-lu-red-hi">{post}</span>
     </span>
   );
 }
@@ -38,11 +38,11 @@ export function Header() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 bg-lu-black transition-[border-color] duration-300 ${scrolled || open ? "border-b border-lu-red/60" : "border-b border-transparent"}`}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-[4.5rem] lg:px-10">
-        <a href="#inicio" className="text-xl sm:text-2xl" onClick={() => setOpen(false)} aria-label="LOW UNITY JTA, voltar ao início">
+        <a href="#inicio" className="whitespace-nowrap text-lg sm:text-2xl" onClick={() => setOpen(false)} aria-label="LOW UNITY JTA, voltar ao início">
           <Logo />
         </a>
         <div className="flex items-center gap-5">
-          <Cta className="hidden !min-h-10 !px-5 !text-sm md:inline-flex">{site.hero.primary}</Cta>
+          <Cta className="max-md:!hidden !min-h-10 !px-5 !text-sm">{site.hero.primary}</Cta>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}

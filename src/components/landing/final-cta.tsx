@@ -11,7 +11,7 @@ export function FinalCta() {
         UNITY
       </span>
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <h2 className="font-anton text-[clamp(2.8rem,8.5vw,7rem)] uppercase leading-[0.9]">
+        <h2 className="font-anton text-[clamp(2.8rem,8.5vw,7rem)] uppercase leading-[1.1]">
           <BlurReveal>{c.title}</BlurReveal>
         </h2>
         <p className="mt-7 text-xl text-lu-ice/85">

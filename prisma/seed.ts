@@ -32,7 +32,8 @@ async function main() {
   const team = [tallison, adrian, joalison];
 
   const catalog = JSON.parse(readFileSync(new URL("./data/exercisedb.json", import.meta.url), "utf8")) as ExerciseDbItem[];
-  await db.exercise.createMany({ data: catalog.map((x) => ({ ...toExerciseRow(x), ...(PT_NAMES[x.exerciseId] && { name: PT_NAMES[x.exerciseId] }) })) });
+  const namesPt = JSON.parse(readFileSync(new URL("./data/exercise-names-pt.json", import.meta.url), "utf8")) as Record<string, string>;
+  await db.exercise.createMany({ data: catalog.map((x) => { const r = toExerciseRow(x); return { ...r, name: PT_NAMES[x.exerciseId] ?? namesPt[x.exerciseId] ?? r.name }; }) });
   const ex: Record<string, string> = {};
   for (const e of await db.exercise.findMany({ where: { externalId: { in: Object.keys(PT_NAMES) } } })) ex[e.name] = e.id;
 

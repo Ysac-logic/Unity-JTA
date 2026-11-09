@@ -27,18 +27,18 @@ export function LineChart({ points, unit, label, height = 160 }: { points: Point
     <figure>
       <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label={`${label}: de ${fmt(first)} ${unit} para ${fmt(last)} ${unit}`}>
         {[0, 0.5, 1].map((t) => (
-          <line key={t} x1={pad.l} x2={W - pad.r} y1={pad.t + t * (H - pad.t - pad.b)} y2={pad.t + t * (H - pad.t - pad.b)} stroke="#ffffff2e" strokeDasharray="3 5" />
+          <line key={t} x1={pad.l} x2={W - pad.r} y1={pad.t + t * (H - pad.t - pad.b)} y2={pad.t + t * (H - pad.t - pad.b)} stroke="#f5f2ed2e" strokeDasharray="3 5" />
         ))}
-        <path d={area} fill="#e10600" fillOpacity="0.16" />
-        <path d={path} fill="none" stroke="#ff4d40" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={area} fill="#a30f20" fillOpacity="0.16" />
+        <path d={path} fill="none" stroke="#e8394a" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
         {points.map((p, i) => (
           <g key={i}>
-            <circle cx={x(i)} cy={y(p.value)} r={i === points.length - 1 ? 5 : 3.5} fill={i === points.length - 1 ? "#e10600" : "#141414"} stroke="#ff4d40" strokeWidth="2">
+            <circle cx={x(i)} cy={y(p.value)} r={i === points.length - 1 ? 5 : 3.5} fill={i === points.length - 1 ? "#a30f20" : "#101010"} stroke="#e8394a" strokeWidth="2">
               <title>{`${fShort(p.date)}: ${fmt(p.value)} ${unit}`}</title>
             </circle>
             {(i % showEvery === 0 || i === points.length - 1) && (
               <>
-                <text x={x(i)} y={y(p.value) - 10} textAnchor="middle" fontSize="13" fontWeight="600" fill="#ffffff" className="tnum">
+                <text x={x(i)} y={y(p.value) - 10} textAnchor="middle" fontSize="13" fontWeight="600" fill="#f5f2ed" className="tnum">
                   {fmt(p.value)}
                 </text>
                 <text x={x(i)} y={H - 6} textAnchor="middle" fontSize="12" fill="#8f8f8f">

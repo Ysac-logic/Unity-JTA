@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Flame, CalendarCheck, Activity, Trophy, Moon, ChevronRight, Award } from "lucide-react";
+import { ArrowRight, Dumbbell, TrendingUp, Wallet, MessageCircle, Flame, CalendarCheck, Activity, Trophy, Moon, ChevronRight, Award } from "lucide-react";
 import { db } from "@/lib/db";
 import { requireStudent } from "@/lib/auth";
 import { studentStats, loadProgress } from "@/lib/stats";
@@ -8,7 +8,7 @@ import { syncFinanceAlerts, invoiceStatus } from "@/lib/finance";
 import { notifyUser } from "@/lib/notify";
 import { addDays, fDate, fRelative, fWeekdayLong, today, WEEKDAYS, ymd } from "@/lib/dates";
 import { brl, kg } from "@/lib/labels";
-import { ButtonLink, Card, SectionTitle, Stat, StatusBadge, cx } from "@/components/ui";
+import { Avatar, ButtonLink, Card, SectionTitle, Stat, StatusBadge, cx } from "@/components/ui";
 
 export default async function StudentHome() {
   const { user, student } = await requireStudent();
@@ -42,23 +42,47 @@ export default async function StudentHome() {
   return (
     <div className="space-y-8">
       <section>
-        <p className="eyebrow first-letter:uppercase">{fWeekdayLong(new Date())}</p>
-        <h1 className="mt-1 font-display text-4xl font-extrabold uppercase leading-none">Olá, {first}!</h1>
-        <p className="mt-2 text-muted">{w ? "Pronto para o treino de hoje?" : plan.isRestDay ? "Hoje é dia de recuperação." : "Sua equipe está preparando seu treino."}</p>
+        <div className="flex items-center gap-3">
+          <Avatar name={user.name} size={48} />
+          <div className="min-w-0">
+            <h1 className="font-display text-2xl leading-tight">Olá, {first}!</h1>
+            <p className="text-sm text-muted first-letter:uppercase">{fWeekdayLong(new Date())} · {w ? "pronto para o treino de hoje?" : plan.isRestDay ? "hoje é dia de recuperação." : "sua equipe está preparando seu treino."}</p>
+          </div>
+        </div>
+        <div className="card-glow mt-4 rounded-[var(--radius-card)] border border-line p-4">
+          <p className="eyebrow">Seu objetivo</p>
+          <p className="mt-1 font-display text-lg">{quoteOfDay()}</p>
+        </div>
+        <ul className="mt-4 grid grid-cols-4 gap-2">
+          {[
+            { href: "/aluno/treinos", label: "Treinos", Icon: Dumbbell },
+            { href: "/aluno/evolucao", label: "Evolução", Icon: TrendingUp },
+            { href: "/aluno/financeiro", label: "Financeiro", Icon: Wallet },
+            { href: "/aluno/mensagens", label: "Suporte", Icon: MessageCircle },
+          ].map(({ href, label, Icon }) => (
+            <li key={href}>
+              <Link href={href} className="flex flex-col items-center gap-2 rounded-2xl border border-line bg-surface px-1 py-3 text-xs font-medium transition-colors hover:border-brand-text/60">
+                <span className="grid size-10 place-items-center rounded-full border border-brand-text/50 text-brand-text">
+                  <Icon aria-hidden className="size-5" />
+                </span>
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {w ? (
-        <Card className="hero-grain relative overflow-hidden border-line-strong p-5 sm:p-6">
-          <span aria-hidden className="absolute -right-6 top-0 h-full w-10 -skew-x-12 bg-brand/90" />
-          <p className="eyebrow text-brand-text">Treino de hoje</p>
-          <h2 className="mt-2 max-w-[85%] font-display text-3xl font-extrabold uppercase leading-[0.95] sm:text-4xl">
+        <Card className="relative overflow-hidden p-5">
+          <p className="font-display text-xl">Hoje</p>
+          <h2 className="mt-3 font-display text-lg leading-tight">
             {w.label && <span className="text-brand-text">Treino {w.label} · </span>}
             {w.name}
           </h2>
-          <p className="mt-2 text-sm text-muted tnum">{w._count.items} exercícios</p>
+          <p className="mt-1 text-sm text-muted tnum">{w._count.items} exercícios</p>
           <div className="mt-6 flex flex-col gap-2 sm:flex-row">
             <ButtonLink href={`/aluno/treinos/${w.id}/executar`} size="lg" className="w-full sm:w-auto">
-              Começar treino <ArrowRight aria-hidden className="size-5" />
+              Iniciar <ArrowRight aria-hidden className="size-5" />
             </ButtonLink>
             <ButtonLink href={`/aluno/treinos/${w.id}`} variant="secondary" size="lg" className="w-full sm:w-auto">
               Ver exercícios
@@ -67,7 +91,7 @@ export default async function StudentHome() {
         </Card>
       ) : (
         <Card className="flex items-center gap-4 p-5">
-          <span className="grid size-12 shrink-0 place-items-center rounded-full bg-surface-2">
+          <span className="grid size-12 shrink-0 place-items-center rounded-full border border-line-strong bg-surface-2">
             <Moon aria-hidden className="size-5 text-muted" />
           </span>
           <div>
@@ -94,7 +118,7 @@ export default async function StudentHome() {
             {weightDelta != null && (
               <Card className="p-4">
                 <p className="text-[13px] font-medium text-muted">Peso corporal</p>
-                <p className="mt-2 font-display text-3xl font-bold tnum">{kg(weights[0].weightKg)}</p>
+                <p className="mt-2 font-display text-3xl font-semibold tnum">{kg(weights[0].weightKg)}</p>
                 <p className="mt-1 text-[13px] text-subtle tnum">
                   {weightDelta > 0 ? "+" : ""}
                   {weightDelta.toFixed(1)} kg desde {fDate(weights[1].date)}
@@ -104,7 +128,7 @@ export default async function StudentHome() {
             {topLoad && (
               <Card className="p-4">
                 <p className="truncate text-[13px] font-medium text-muted">{topLoad.name}</p>
-                <p className="mt-2 font-display text-2xl font-bold tnum">
+                <p className="mt-2 font-display text-2xl font-semibold tnum">
                   {topLoad.points.slice(-4).map((p, i, a) => (
                     <span key={i}>
                       <span className={i === a.length - 1 ? "text-brand-text" : "text-muted"}>{p.value}</span>
@@ -160,9 +184,6 @@ export default async function StudentHome() {
         </ul>
       </section>
 
-      <blockquote className="border-l-2 border-brand pl-4 font-display text-xl font-semibold uppercase leading-tight text-muted">
-        {quoteOfDay()}
-      </blockquote>
     </div>
   );
 }

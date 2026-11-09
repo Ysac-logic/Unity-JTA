@@ -56,7 +56,7 @@ export default async function StudentAdmin({ params, searchParams }: { params: P
         <Avatar name={s.user.name} size={64} />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="font-display text-3xl font-extrabold uppercase leading-none sm:text-4xl">{s.user.name}</h1>
+            <h1 className="font-display text-3xl font-semibold leading-none sm:text-4xl">{s.user.name}</h1>
             {s.status === "INACTIVE" && <Tag>Inativo</Tag>}
             {inv && <StatusBadge status={invoiceStatus(inv)} />}
           </div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, Dumbbell, Search } from "lucide-react";
+import { Plus, Dumbbell, Search, User } from "lucide-react";
 import { db } from "@/lib/db";
 import { requireStaff } from "@/lib/auth";
 import { WEEKDAYS, fRelative } from "@/lib/dates";
@@ -29,17 +29,22 @@ export default async function AllWorkouts({ searchParams }: { searchParams: Prom
       ) : (
         <Card className="divide-y divide-line">
           {workouts.map((w) => (
-            <Link key={w.id} href={`/admin/treinos/${w.id}`} className="flex flex-wrap items-center gap-x-4 gap-y-1 p-4 hover:bg-surface-2">
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-semibold">
+            <Link key={w.id} href={`/admin/treinos/${w.id}`} className="flex flex-col gap-2 p-4 hover:bg-surface-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-1">
+              <div className="min-w-0 sm:flex-1">
+                <p className="font-display text-lg leading-snug max-sm:break-words sm:truncate sm:text-base sm:font-semibold">
                   {w.label && <span className="text-brand-text">{w.label} · </span>}
                   {w.name}
                 </p>
-                <p className="truncate text-sm text-muted">{w.student.user.name}</p>
+                <p className="mt-0.5 flex items-center gap-1.5 text-[15px] font-semibold text-fg sm:text-sm sm:font-normal sm:text-muted">
+                  <User aria-hidden className="size-4 shrink-0 text-brand-text sm:hidden" />
+                  <span className="truncate">{w.student.user.name}</span>
+                </p>
               </div>
-              {w.dayOfWeek != null && <Tag>{WEEKDAYS[w.dayOfWeek]}</Tag>}
-              <span className="text-sm text-muted tnum">{w._count.items} exercícios · {w._count.sessions} execuções</span>
-              <span className="w-full text-xs text-subtle sm:w-auto">Atualizado {fRelative(w.updatedAt)}{w.updatedBy && ` por ${w.updatedBy.name.split(" ")[0]}`}</span>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                {w.dayOfWeek != null && <Tag>{WEEKDAYS[w.dayOfWeek]}</Tag>}
+                <span className="text-sm text-muted tnum">{w._count.items} exercícios · {w._count.sessions} execuções</span>
+              </div>
+              <span className="text-xs text-subtle sm:w-auto">Atualizado {fRelative(w.updatedAt)}{w.updatedBy && ` por ${w.updatedBy.name.split(" ")[0]}`}</span>
             </Link>
           ))}
         </Card>

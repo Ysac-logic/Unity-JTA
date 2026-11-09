@@ -24,7 +24,7 @@ export function Reveal({ children, className, delay = 0, y = 28, as = "div" }: {
 export function Eyebrow({ children, tone = "dark" }: { children: ReactNode; tone?: "dark" | "light" }) {
   return (
     <Reveal y={10}>
-      <p className={`flex items-center gap-3 font-display text-sm font-bold uppercase tracking-[0.28em] ${tone === "dark" ? "text-lu-red-hi" : "text-lu-red"}`}>
+      <p className={`flex items-center gap-3 font-sans text-sm font-bold uppercase tracking-[0.28em] ${tone === "dark" ? "text-lu-red-hi" : "text-lu-red"}`}>
         <span aria-hidden className="h-px w-8 bg-current" />
         {children}
       </p>
@@ -34,7 +34,7 @@ export function Eyebrow({ children, tone = "dark" }: { children: ReactNode; tone
 
 export function SectionTitle({ children, className = "" }: { children: string; className?: string }) {
   return (
-    <h2 className={`font-anton text-[clamp(2.6rem,7.5vw,6rem)] uppercase leading-[0.92] ${className}`}>
+    <h2 className={`font-anton text-[clamp(2.6rem,7.5vw,6rem)] uppercase leading-[1.1] ${className}`}>
       <SlideUpText>{children}</SlideUpText>
     </h2>
   );
@@ -58,7 +58,7 @@ export function Cta({ children, variant = "red", href, message, className = "" }
       rel={external ? "noopener noreferrer" : undefined}
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.97 }}
-      className={`group inline-flex min-h-13 items-center justify-center gap-3 px-7 font-display text-base font-bold uppercase tracking-[0.14em] transition-colors duration-300 ${variants[variant]} ${className}`}
+      className={`group inline-flex min-h-13 items-center justify-center gap-3 px-7 font-sans text-base font-bold uppercase tracking-[0.14em] transition-colors duration-300 ${variants[variant]} ${className}`}
     >
       {children}
       <ArrowUpRight aria-hidden className="size-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

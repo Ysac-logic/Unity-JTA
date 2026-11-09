@@ -21,7 +21,7 @@ export function Plans() {
               }`}
             >
               {plan.featured && "badge" in plan && (
-                <span className="absolute -top-px right-6 bg-lu-red px-3 py-1.5 font-display text-xs font-bold uppercase tracking-[0.22em]">{plan.badge}</span>
+                <span className="absolute -top-px right-6 bg-lu-red px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-[0.22em]">{plan.badge}</span>
               )}
               <h3 className="font-anton text-4xl uppercase">{plan.name}</h3>
               <p className="mt-6 flex items-baseline gap-1">

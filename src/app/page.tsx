@@ -68,7 +68,7 @@ const card = "rounded-[var(--radius-card)] border";
 
 export default function Landing() {
   return (
-    <div className="min-h-dvh overflow-x-clip">
+    <div className="theme-lu min-h-dvh overflow-x-clip">
       <div aria-hidden className="overflow-hidden bg-brand py-2 text-white">
         <div className="marquee-track flex w-max gap-8 whitespace-nowrap text-xs font-bold uppercase tracking-[0.032em]">
           {[...MARQUEE, ...MARQUEE, ...MARQUEE, ...MARQUEE].map((m, i) => (
@@ -110,7 +110,7 @@ export default function Landing() {
             <p className="eyebrow mb-5 inline-flex items-center gap-2 rounded-full border border-white/50 px-4 py-2 !text-fg">
               <span aria-hidden className="size-2 rounded-full bg-brand" /> Consultoria fitness online
             </p>
-            <h1 className="display max-w-[11ch] !leading-[0.92]">
+            <h1 className="display max-w-[11ch] !leading-[1.1]">
               Uma equipe.
               <br />
               <span className="inline-block -rotate-1 rounded-[0.12em] border border-white bg-brand px-[0.12em] pb-[0.04em]">Sua melhor</span>

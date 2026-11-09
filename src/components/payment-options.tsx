@@ -17,7 +17,7 @@ const TABS: { key: Method; label: string; Icon: typeof CreditCard }[] = [
 
 function BrandMark() {
   return (
-    <span aria-hidden className="inline-flex items-center gap-1.5 font-display text-sm font-extrabold uppercase leading-none tracking-tight">
+    <span aria-hidden className="inline-flex items-center gap-1.5 font-display text-sm font-semibold leading-none tracking-tight">
       <span className="h-4 w-1 -skew-x-12 bg-brand" /> Low Unity <span className="text-brand-text">JTA</span>
     </span>
   );

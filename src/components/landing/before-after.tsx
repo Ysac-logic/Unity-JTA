@@ -6,7 +6,7 @@ import { Photo } from "./photo";
 
 export function BeforeAfter({ before, after, caption }: { before: string; after: string; caption: string }) {
   const [pos, setPos] = useState(50);
-  const tag = "absolute top-4 bg-lu-black/80 px-3 py-1 font-display text-xs font-bold uppercase tracking-[0.24em] text-lu-ice";
+  const tag = "absolute top-4 bg-lu-black/80 px-3 py-1 font-sans text-xs font-bold uppercase tracking-[0.24em] text-lu-ice";
   return (
     <figure>
       <div className="relative aspect-[4/5] select-none overflow-hidden bg-lu-black sm:aspect-[16/9]">

@@ -24,7 +24,7 @@ export function Results() {
               <blockquote className="mt-6 flex-1 text-lg leading-relaxed text-lu-ice/85">“{t.text}”</blockquote>
               <div className="mt-8 border-t border-lu-gray/25 pt-5">
                 <p className="font-anton text-xl uppercase">{t.name}</p>
-                <p className="mt-1 font-display text-sm uppercase tracking-[0.14em] text-lu-gray">{t.detail}</p>
+                <p className="mt-1 font-sans text-sm uppercase tracking-[0.14em] text-lu-gray">{t.detail}</p>
               </div>
             </Reveal>
           ))}

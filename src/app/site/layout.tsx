@@ -12,5 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`lu-root ${sign.variable}`}>{children}</div>;
+  return <div className={`lu-root theme-lu ${sign.variable}`}>{children}</div>;
 }

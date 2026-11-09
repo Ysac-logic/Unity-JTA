@@ -208,7 +208,7 @@ export function WorkoutRunner({ workoutId, workoutName, label, exercises }: { wo
           <ExerciseGif key={ex.exerciseId} name={ex.name} gifUrl={ex.gifUrl} muscleGroup={ex.muscleGroup} targetMuscle={ex.targetMuscle} equipment={ex.equipment} instructions={ex.instructions} size={88} className="rounded-xl" />
           <div className="min-w-0">
             <p className="eyebrow">{[ex.muscleGroup, ex.equipment].filter(Boolean).join(" · ")}</p>
-            <h1 className="mt-1 font-display text-3xl font-extrabold uppercase leading-[0.95] text-balance sm:text-4xl">{ex.name}</h1>
+            <h1 className="mt-1 font-display text-3xl font-semibold leading-[1.08] text-balance sm:text-4xl">{ex.name}</h1>
             {ex.gifUrl && <p className="mt-1.5 text-xs text-subtle">Toque na imagem para ampliar</p>}
           </div>
         </div>
@@ -356,7 +356,7 @@ function Done({ summary, workoutName }: { summary: Summary; workoutName: string 
       <span className="mx-auto grid size-20 place-items-center rounded-full bg-brand">
         <Trophy aria-hidden className="size-9 text-white" />
       </span>
-      <h1 className="mt-6 font-display text-5xl font-extrabold uppercase leading-none">Treino<br />concluído!</h1>
+      <h1 className="mt-6 font-display text-5xl font-semibold leading-none">Treino<br />concluído!</h1>
       <p className="mt-3 text-muted">{workoutName}</p>
       <dl className="mt-8 grid grid-cols-2 gap-3 text-left">
         {[

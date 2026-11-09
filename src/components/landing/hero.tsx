@@ -22,12 +22,12 @@ export function Hero() {
       </div>
 
       <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-end px-4 pb-10 pt-16 sm:px-6 lg:px-10 lg:pb-14">
-        <p className="mb-6 flex items-center gap-3 font-display text-sm font-bold uppercase tracking-[0.3em] text-lu-red-hi sm:text-base">
+        <p className="mb-6 flex items-center gap-3 font-sans text-sm font-bold uppercase tracking-[0.3em] text-lu-red-hi sm:text-base">
           <span aria-hidden className="h-px w-10 bg-lu-red-hi" />
           <RandomizedText split="chars" delay={0.2}>{h.eyebrow}</RandomizedText>
         </p>
 
-        <h1 className="max-w-[14ch] font-anton text-[clamp(3.2rem,11vw,9.5rem)] uppercase leading-[0.88] tracking-[0.005em]">
+        <h1 className="max-w-[14ch] font-anton text-[clamp(3.2rem,11vw,9.5rem)] uppercase leading-[1.1] tracking-[0.005em]">
           <SlideUpText
             delay={0.15}
             accent={h.accent}
@@ -49,7 +49,7 @@ export function Hero() {
           {h.facts.map((f) => (
             <div key={f.label} className="border-l border-lu-red/70 pl-3 first:border-l-0 first:pl-0 sm:pl-5">
               <p className="font-anton text-3xl leading-none sm:text-5xl">{f.value}</p>
-              <p className="mt-2 font-display text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-lu-gray sm:text-xs">{f.label}</p>
+              <p className="mt-2 font-sans text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-lu-gray sm:text-xs">{f.label}</p>
             </div>
           ))}
         </Reveal>

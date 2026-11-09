@@ -86,6 +86,8 @@ body {
 }
 .band-paper { --color-focus: var(--color-brand); }
 
+@custom-variant sys (&:where(.sys, .sys *));
+
 @layer base {
   .font-display,
   .font-anton {
@@ -258,4 +260,79 @@ html:has(.lu-root) {
 @media (prefers-reduced-motion: reduce) {
   html:has(.lu-root) { scroll-behavior: auto; }
   .lu-wave-text, .lu-ping { animation: none; }
+}
+
+/* ===== Sistema e site: paleta Black / Crimson / Off White, Playfair + Montserrat ===== */
+.sys,
+.theme-lu {
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-sign: var(--font-dafoe), cursive;
+
+  --color-bg: #080808;
+  --color-ink: #080808;
+  --color-surface: #101010;
+  --color-surface-2: #161616;
+  --color-surface-3: #212121;
+  --color-line: rgb(245 242 237 / 0.1);
+  --color-line-strong: rgb(245 242 237 / 0.26);
+  --color-fg: #f5f2ed;
+  --color-paper: #f5f2ed;
+  --color-muted: #aaa59e;
+  --color-subtle: #8c8780;
+  --color-brand: #a30f20;
+  --color-brand-hover: #b8132a;
+  --color-brand-press: #880d1a;
+  --color-brand-text: #e8394a;
+  --color-brand-soft: rgb(163 15 32 / 0.2);
+  --color-info: #aaa59e;
+  --color-info-soft: rgb(245 242 237 / 0.08);
+  --radius-card: 1rem;
+
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+}
+body:has(.sys, .theme-lu) { background: #080808; }
+
+.sys .font-display,
+.sys .display,
+.sys .title,
+.theme-lu .font-display,
+.theme-lu .font-anton,
+.theme-lu .display,
+.theme-lu .title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.sys .title, .theme-lu .title { line-height: 1.05; }
+.sys .eyebrow, .theme-lu .eyebrow { font-weight: 600; letter-spacing: 0.14em; }
+.sys .brand-mark, .theme-lu .brand-mark { font-family: var(--font-display); font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; }
+.sys .brand-sign { font-family: var(--font-sign); letter-spacing: 0; text-transform: none; color: var(--color-brand-text); }
+
+.sys .card-glow {
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgb(136 13 26 / 0.32), transparent 55%),
+    var(--color-surface);
+}
+
+/* Site público: só tipografia e cores */
+.theme-lu {
+  --color-red: #880d1a;
+  --color-lu-black: #080808;
+  --color-lu-coal: #101010;
+  --color-lu-red: #880d1a;
+  --color-lu-red-deep: #6a0a16;
+  --color-lu-red-hi: #e8394a;
+  --color-lu-ice: #f5f2ed;
+  --color-lu-bone: #e9e5dd;
+  --color-lu-gray: #9a958e;
+  --font-anton: var(--font-display);
+}
+.theme-lu .brand-mark > [aria-hidden] { display: none; }
+.theme-lu .lu-wave-text {
+  background-image: linear-gradient(100deg, #880d1a 0%, #e8394a 25%, #f0707c 40%, #a30f20 60%, #880d1a 80%, #e8394a 100%);
+  background-size: 200% 100%;
 }

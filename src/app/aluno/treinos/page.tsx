@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ChevronRight, Dumbbell, History } from "lucide-react";
 import { db } from "@/lib/db";
 import { requireStudent } from "@/lib/auth";
-import { WEEKDAYS, weekdayIndex } from "@/lib/dates";
+import { WEEKDAYS, addDays, today, weekdayIndex } from "@/lib/dates";
 import { ButtonLink, EmptyState, PageHeader, Tag, cx } from "@/components/ui";
 
 export const metadata: Metadata = { title: "Meus treinos" };
@@ -26,6 +26,21 @@ export default async function MyWorkouts() {
     <>
       <PageHeader eyebrow="Sua divisão" title="Meus treinos" actions={<ButtonLink href="/aluno/historico" variant="secondary" size="sm"><History aria-hidden className="size-4" /> Histórico</ButtonLink>} />
 
+      {scheduled && (
+        <ol aria-label="Semana" className="mb-5 grid grid-cols-7 gap-1.5">
+          {ORDER.map((d, n) => {
+            const date = addDays(today(), n - ((todayIdx + 6) % 7));
+            const isToday = d === todayIdx;
+            return (
+              <li key={d} className={cx("flex flex-col items-center rounded-xl border py-2 text-center", isToday ? "border-brand bg-brand text-fg" : "border-line bg-surface text-muted")}>
+                <span className="text-[10px] font-medium">{WEEKDAYS[d].slice(0, 3)}</span>
+                <span className="font-display text-base leading-tight tnum">{date.getUTCDate()}</span>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+
       {workouts.length === 0 ? (
         <EmptyState icon={Dumbbell} title="Nenhum treino publicado" description="A equipe LOW UNITY JTA vai disponibilizar seu treino em breve. Você será notificado." />
       ) : (
@@ -38,7 +53,7 @@ export default async function MyWorkouts() {
                 const inner = (
                   <div className="flex items-center gap-4">
                     <div className="w-20 shrink-0">
-                      <p className={cx("font-display text-sm font-bold uppercase tracking-wider", isToday ? "text-brand-text" : "text-subtle")}>{WEEKDAYS[d]}</p>
+                      <p className={cx("font-display text-sm font-semibold", isToday ? "text-brand-text" : "text-subtle")}>{WEEKDAYS[d]}</p>
                       {isToday && <p className="text-[11px] font-semibold uppercase text-brand-text">Hoje</p>}
                     </div>
                     {w ? (
@@ -72,7 +87,7 @@ export default async function MyWorkouts() {
 
           {unscheduled.length > 0 && (
             <section>
-              {scheduled && <h2 className="mb-3 font-display text-lg font-bold uppercase">Outros treinos</h2>}
+              {scheduled && <h2 className="mb-3 font-display text-lg font-semibold">Outros treinos</h2>}
               <ul className="grid gap-2 sm:grid-cols-2">
                 {unscheduled.map((w) => (
                   <li key={w.id}>

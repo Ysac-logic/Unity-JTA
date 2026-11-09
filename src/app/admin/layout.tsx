@@ -11,7 +11,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     db.notification.count({ where: { audience: "STAFF", readAt: null } }),
   ]);
   return (
-    <div className="min-h-dvh">
+    <div className="sys min-h-dvh">
       <a href="#conteudo" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-brand focus:px-3 focus:py-2">
         Pular para o conteúdo
       </a>

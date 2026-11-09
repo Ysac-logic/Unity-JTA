@@ -88,16 +88,16 @@ export function WorkoutBuilder({
         </div>
       </Card>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-start">
-        <section aria-labelledby="h-lib" className="lg:sticky lg:top-6">
-          <Card className="flex flex-col p-4 lg:max-h-[calc(100dvh-3rem)]">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-start">
+        <section aria-labelledby="h-lib" className="min-w-0 lg:sticky lg:top-6">
+          <Card className="flex min-w-0 flex-col p-4 lg:max-h-[calc(100dvh-3rem)]">
             <div className="mb-3 flex items-baseline justify-between gap-2">
               <p id="h-lib" className="eyebrow">2 · Biblioteca · toque para adicionar</p>
               <span className="text-xs text-subtle tnum">{filtered.length}</span>
             </div>
             <div className="relative">
               <Search aria-hidden className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-subtle" />
-              <Input value={q} onChange={(e) => { setQ(e.target.value); setLimit(PAGE); }} placeholder="Buscar por nome, músculo ou equipamento" aria-label="Buscar exercício" className="pl-10" />
+              <Input value={q} onChange={(e) => { setQ(e.target.value); setLimit(PAGE); }} placeholder="Buscar exercício, músculo…" aria-label="Buscar exercício" className="pl-10" />
             </div>
             <div role="group" aria-label="Categorias" className="mt-3 flex flex-wrap gap-1.5">
               {[["", "Todos", exercises.length] as const, ...cats.map((c) => [c, c, counts[c]] as const)].map(([key, label, n]) => (
@@ -112,7 +112,7 @@ export function WorkoutBuilder({
                 </button>
               ))}
             </div>
-            <ul className="mt-3 -mx-1 min-h-0 flex-1 space-y-0.5 overflow-y-auto px-1 max-lg:max-h-[26rem]">
+            <ul className="mt-3 -mx-1 min-h-0 min-w-0 flex-1 space-y-0.5 overflow-x-hidden overflow-y-auto px-1 max-lg:max-h-[26rem]">
               {filtered.slice(0, limit).map((e) => {
                 const count = items.filter((i) => i.exerciseId === e.id).length;
                 return (
@@ -120,7 +120,7 @@ export function WorkoutBuilder({
                     <ExerciseGif name={e.name} gifUrl={e.gifUrl} muscleGroup={e.muscleGroup} targetMuscle={e.targetMuscle} equipment={e.equipment} size={52} />
                     <button type="button" onClick={() => add(e)} className="flex min-h-12 min-w-0 flex-1 items-center gap-2 text-left cursor-pointer" aria-label={`Adicionar ${e.name}`}>
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-sm font-semibold">{e.name}</span>
+                        <span className="line-clamp-2 break-words text-sm font-semibold leading-snug">{e.name}</span>
                         <span className="block truncate text-xs text-subtle">{[e.targetMuscle, e.equipment].filter(Boolean).join(" · ")}</span>
                       </span>
                       {count > 0 && <span className="rounded bg-brand-soft px-1.5 text-xs font-bold text-brand-text tnum">{count}×</span>}

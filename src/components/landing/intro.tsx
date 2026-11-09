@@ -42,7 +42,7 @@ export function Intro() {
             role="presentation"
           >
             <motion.p
-              className="font-anton text-sm uppercase tracking-[0.6em] text-lu-gray"
+              className="font-sans text-sm uppercase tracking-[0.6em] text-lu-gray"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -58,7 +58,7 @@ export function Intro() {
               transition={{ duration: 1.2, ease: [0.65, 0, 0.35, 1], delay: 1.6 }}
             />
             <motion.p
-              className="mt-6 font-display text-xs font-semibold uppercase tracking-[0.4em] text-lu-gray"
+              className="mt-6 font-sans text-xs font-semibold uppercase tracking-[0.4em] text-lu-gray"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 2.1, duration: 0.6 }}

@@ -11,7 +11,8 @@
     "db:reset": "prisma db push --force-reset && prisma db seed",
     "setup": "prisma db push && prisma db seed",
     "exercises:fetch": "node prisma/fetch-exercisedb.mjs",
-    "exercises:import": "tsx prisma/import-exercises.ts"
+    "exercises:import": "tsx prisma/import-exercises.ts",
+    "exercises:translate": "node prisma/translate-names.mjs"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
