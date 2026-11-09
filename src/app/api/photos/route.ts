@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { canAccessStudent, getCurrentUser, isStaffRole } from "@/lib/auth";
-import { savePhotoFile } from "@/lib/photos";
+import { savePhotoFile, STORED_PHOTO_MIME } from "@/lib/photos";
 import { logActivity } from "@/lib/activity";
 import { notifyStaff } from "@/lib/notify";
 import { dateOnly, fDate, today } from "@/lib/dates";
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
 
   try {
     const filePath = await savePhotoFile(studentId, file);
-    const photo = await db.progressPhoto.create({ data: { studentId, angle, takenAt, filePath, mimeType: file.type, uploadedById: user.id } });
+    const photo = await db.progressPhoto.create({ data: { studentId, angle, takenAt, filePath, mimeType: STORED_PHOTO_MIME, uploadedById: user.id } });
     await logActivity({ actorId: user.id, action: "photo.upload", entityType: "photo", entityId: photo.id, studentId, description: `Foto de evolução (${ANGLES[angle]}, ${fDate(takenAt)}) enviada por ${user.name}.` });
     if (!isStaffRole(user.role)) {
       await notifyStaff({ type: "EVOLUTION", title: `${user.name.split(" ")[0]} enviou uma nova foto de evolução.`, body: `${ANGLES[angle]} · ${fDate(takenAt)}`, link: `/admin/alunos/${studentId}?tab=evolucao` });
